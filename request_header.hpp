@@ -9,7 +9,7 @@ namespace RestApi {
      *  A holder for http requests.
      *  Containing the first line of the header.
      */
-    struct Request
+    struct RequestHeader
     {
         std::string requestType;
         std::string httpVersion;

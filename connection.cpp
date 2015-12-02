@@ -55,7 +55,7 @@ namespace RestApi
         return id_;
     }
 //-------------------------------------------------------------------------------------------------------
-    Request RestConnection::getRequest() const
+    RequestHeader RestConnection::getRequest() const
     {
         return request_;
     }

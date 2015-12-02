@@ -3,10 +3,10 @@
 
 #include "user_id.hpp"
 #include "forward.hpp"
-#include "request.hpp"
+#include "request_header.hpp"
 #include "header.hpp"
 #include "exceptions.hpp"
-#include "response.hpp"
+#include "response_header.hpp"
 
 #ifndef Q_MOC_RUN // A Qt workaround, for those of you who use Qt
 #   include "SimpleJSON/parse/jsd.h"
@@ -57,7 +57,7 @@ namespace RestApi {
          *
          *  @return A request containing all info present in the first line of a request.
          */
-        Request getRequest() const;
+        RequestHeader getRequest() const;
 
         /**
          *  Returns the http header entries.
@@ -238,7 +238,7 @@ namespace RestApi {
         boost::asio::ip::tcp::iostream stream_;
         boost::asio::ip::tcp::acceptor::endpoint_type endpoint_;
 
-        Request request_;
+        RequestHeader request_;
         Header head_;
     };
 
