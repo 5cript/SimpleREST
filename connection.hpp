@@ -3,10 +3,10 @@
 
 #include "user_id.hpp"
 #include "forward.hpp"
-#include "request_header.hpp"
 #include "header.hpp"
 #include "exceptions.hpp"
 #include "response_header.hpp"
+#include "request_header.hpp"
 
 #ifndef Q_MOC_RUN // A Qt workaround, for those of you who use Qt
 #   include "SimpleJSON/parse/jsd.h"

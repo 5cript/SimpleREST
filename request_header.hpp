@@ -1,5 +1,5 @@
-#ifndef REQUEST_HPP_INCLUDED
-#define REQUEST_HPP_INCLUDED
+#ifndef REQUEST_HEADER_HPP_INCLUDED
+#define REQUEST_HEADER_HPP_INCLUDED
 
 #include <string>
 
@@ -20,4 +20,4 @@ namespace Rest {
 
 
 
-#endif // REQUEST_HPP_INCLUDED
+#endif // REQUEST_HEADER_HPP_INCLUDED

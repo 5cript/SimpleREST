@@ -1,32 +1,46 @@
 #include "response.hpp"
 
-#include <sstream>
+#include "response_code.hpp"
 
 namespace Rest
 {
 //#######################################################################################################
-    std::string ResponseHeader::toString() const
+    Response::Response(std::shared_ptr <RestConnection>& connection)
+        : connection_(connection)
     {
-        std::stringstream builder;
-        builder << httpVersion << " " << responseCode << " " << responseString << "\r\n";
-        for (auto const& i : responseHeaderPairs) {
-            builder << i.first << ": " << i.second << "\r\n";
-        }
-        builder << "\r\n";
 
-        return builder.str();
     }
 //-------------------------------------------------------------------------------------------------------
-    bool ResponseHeader::isSet(std::string const& key)
+    void Response::send(std::string const& message)
     {
-        return responseHeaderPairs.find(key) != std::end(responseHeaderPairs);
+        connection_->sendString(message, header_);
     }
 //-------------------------------------------------------------------------------------------------------
-    std::string& ResponseHeader::operator[](std::string const& key)
+    RestConnection& Response::getConnection()
     {
-        return responseHeaderPairs[key];
+        return *connection_;
+    }
+//-------------------------------------------------------------------------------------------------------
+    void Response::sendFile(std::string const& fileName, bool autoDetectContentType)
+    {
+        connection_->sendFile(fileName, autoDetectContentType, header_);
+    }
+//-------------------------------------------------------------------------------------------------------
+    void Response::setHeaderEntry(std::string key, std::string value)
+    {
+        header_[key] = value;
+    }
+//-------------------------------------------------------------------------------------------------------
+    void Response::sendStatus(int code)
+    {
+        status(code).send(header_.responseString);
+    }
+//-------------------------------------------------------------------------------------------------------
+    Response& Response::status(int code)
+    {
+        header_.responseString = translateResponseCode(code);
+        header_.responseCode = code;
+        return *this;
     }
 //#######################################################################################################
-} // namespace Rest
-
-
+}

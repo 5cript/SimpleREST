@@ -1,5 +1,5 @@
-#ifndef RESPONSE_HPP_INCLUDED
-#define RESPONSE_HPP_INCLUDED
+#ifndef RESPONSE_HEADER_HPP_INCLUDED
+#define RESPONSE_HEADER_HPP_INCLUDED
 
 #include <string>
 #include <unordered_map>
@@ -42,4 +42,4 @@ namespace Rest {
 
 
 
-#endif // RESPONSE_HPP_INCLUDED
+#endif // RESPONSE_HEADER_HPP_INCLUDED
