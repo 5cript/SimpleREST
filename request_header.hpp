@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace REST {
+namespace Rest {
 
     /**
      *  A holder for http requests.
@@ -16,7 +16,7 @@ namespace REST {
         std::string url;
     };
 
-} // namespace REST
+} // namespace Rest
 
 
 

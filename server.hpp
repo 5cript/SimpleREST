@@ -1,5 +1,5 @@
-#ifndef REST_SERVER_HPP_INCLUDED
-#define REST_SERVER_HPP_INCLUDED
+#ifndef Rest_SERVER_HPP_INCLUDED
+#define Rest_SERVER_HPP_INCLUDED
 
 #include "forward.hpp"
 #include "user_id.hpp"
@@ -14,10 +14,10 @@
 #include <mutex>
 #include <atomic>
 
-namespace REST {
+namespace Rest {
 
     /**
-     *  A RESTful web service server. Provide a callback function which is called when a http request is made.
+     *  A Restful web service server. Provide a callback function which is called when a http request is made.
      */
     class RestServer
     {
@@ -76,8 +76,8 @@ namespace REST {
         std::unordered_map <UserId, std::shared_ptr <RestConnection>, UserIdHasher> connections_; // all currently connected peers.
     };
 
-} // namespace REST
+} // namespace Rest
 
 
 
-#endif // REST_SERVER_HPP_INCLUDED
+#endif // Rest_SERVER_HPP_INCLUDED

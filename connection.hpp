@@ -22,12 +22,12 @@
 #include <chrono>
 #include <functional>
 
-namespace REST {
+namespace Rest {
 
     using namespace std::literals;
 
     /**
-     *  A REST connection to a client.
+     *  A Rest connection to a client.
      */
     class RestConnection : public std::enable_shared_from_this <RestConnection>
     {
@@ -242,7 +242,7 @@ namespace REST {
         Header head_;
     };
 
-} // namespace REST
+} // namespace Rest
 
 
 

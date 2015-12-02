@@ -2,7 +2,7 @@
 
 #include <functional>
 
-namespace REST {
+namespace Rest {
 //#######################################################################################################
     UserId::UserId(uint64_t id)
         : id_(id)
@@ -24,6 +24,6 @@ namespace REST {
         return std::hash <decltype(id.id_)> ()(id.id_);
     }
 //#######################################################################################################
-} // namespace REST
+} // namespace Rest
 
 

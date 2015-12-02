@@ -1,6 +1,6 @@
 #include "exceptions.hpp"
 
-namespace REST
+namespace Rest
 {
 //#######################################################################################################
     RestException::RestException(std::string message)
@@ -20,7 +20,7 @@ namespace REST
 
     }
 //#######################################################################################################
-} // namespace REST
+} // namespace Rest
 
 
 

@@ -4,7 +4,7 @@
 #include <memory>
 #include <boost/asio.hpp>
 
-namespace REST {
+namespace Rest {
 
     /**
      *  A boost::asio::io_service provider.
@@ -39,7 +39,7 @@ namespace REST {
         boost::asio::io_service ioService; // io_service
     };
 
-} // namespace REST
+} // namespace Rest
 
 
 #endif // IO_SERVICE_PROVIDER_HPP_INCLUDED

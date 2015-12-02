@@ -1,14 +1,14 @@
-#ifndef RESTFUL_HPP_INCLUDED
-#define RESTFUL_HPP_INCLUDED
+#ifndef RestFUL_HPP_INCLUDED
+#define RestFUL_HPP_INCLUDED
 
 #include "server.hpp"
 #include "connection.hpp"
 
 #include <functional>
 
-namespace REST {
+namespace Rest {
     /**
-     *  The Interface Provider makes declaring a RESTful interface
+     *  The Interface Provider makes declaring a Restful interface
      *  a breeze. It provides methods to register request types on certain
      *  urls.
      */
@@ -50,4 +50,4 @@ namespace REST {
     };
 }
 
-#endif // RESTFUL_HPP_INCLUDED
+#endif // RestFUL_HPP_INCLUDED

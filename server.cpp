@@ -4,7 +4,7 @@
 
 using namespace boost::asio::ip;
 
-namespace REST
+namespace Rest
 {
 //#######################################################################################################
     RestServer::RestServer(std::function <void(std::shared_ptr <RestConnection>)> handler,
@@ -89,4 +89,4 @@ namespace REST
         connections_.erase(connection->getId());
     }
 //#######################################################################################################
-} // namespace REST
+} // namespace Rest
