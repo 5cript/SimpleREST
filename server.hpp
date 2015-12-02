@@ -14,7 +14,7 @@
 #include <mutex>
 #include <atomic>
 
-namespace RestApi {
+namespace REST {
 
     /**
      *  A RESTful web service server. Provide a callback function which is called when a http request is made.
@@ -76,7 +76,7 @@ namespace RestApi {
         std::unordered_map <UserId, std::shared_ptr <RestConnection>, UserIdHasher> connections_; // all currently connected peers.
     };
 
-} // namespace RestApi
+} // namespace REST
 
 
 

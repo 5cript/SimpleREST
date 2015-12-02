@@ -3,7 +3,7 @@
 
 #include <unordered_map>
 
-namespace RestApi {
+namespace REST {
 
     /**
      *  A data holder class for header entries.
@@ -16,7 +16,7 @@ namespace RestApi {
         std::unordered_map <std::string, std::string> entries;
     };
 
-} // namespace RestApi
+} // namespace REST
 
 
 

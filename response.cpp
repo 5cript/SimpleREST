@@ -2,7 +2,7 @@
 
 #include <sstream>
 
-namespace RestApi
+namespace REST
 {
 //#######################################################################################################
     std::string ResponseHeader::toString() const
@@ -27,6 +27,6 @@ namespace RestApi
         return responseHeaderPairs[key];
     }
 //#######################################################################################################
-} // namespace RestApi
+} // namespace REST
 
 

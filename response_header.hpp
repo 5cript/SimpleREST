@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include <cstdint>
 
-namespace RestApi {
+namespace REST {
 
     /**
      *  A pure holder for response information.
@@ -37,7 +37,7 @@ namespace RestApi {
         bool isSet(std::string const& key);
     };
 
-} // namespace RestApi
+} // namespace REST
 
 
 

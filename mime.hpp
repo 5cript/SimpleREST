@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace RestApi {
+namespace REST {
 
     // source: http://www.freeformatter.com/mime-types-list.html
     /**
@@ -14,7 +14,7 @@ namespace RestApi {
      */
     std::string extensionToMimeType(std::string const& extension);
 
-} // namespace RestApi
+} // namespace REST
 
 
 

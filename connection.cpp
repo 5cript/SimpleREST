@@ -9,7 +9,7 @@
 
 #include <iostream>
 
-namespace RestApi
+namespace REST
 {
 //#######################################################################################################
     std::string extractFileExtension(std::string const& fileName)
@@ -212,6 +212,6 @@ namespace RestApi
         return getBodySize() == 0;
     }
 //#######################################################################################################
-} // namespace RestApi
+} // namespace REST
 
 

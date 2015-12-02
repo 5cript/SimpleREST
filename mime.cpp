@@ -2,7 +2,7 @@
 
 #include <unordered_map>
 
-namespace RestApi
+namespace REST
 {
 //#######################################################################################################
 #   define MAP(A, B) {A, B},
@@ -701,6 +701,6 @@ namespace RestApi
             return iter->second;
     }
 //#######################################################################################################
-} // namespace RestApi
+} // namespace REST
 
 

@@ -22,7 +22,7 @@
 #include <chrono>
 #include <functional>
 
-namespace RestApi {
+namespace REST {
 
     using namespace std::literals;
 
@@ -242,7 +242,7 @@ namespace RestApi {
         Header head_;
     };
 
-} // namespace RestApi
+} // namespace REST
 
 
 

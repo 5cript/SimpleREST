@@ -2,7 +2,7 @@
 
 #include <functional>
 
-namespace RestApi {
+namespace REST {
 //#######################################################################################################
     UserId::UserId(uint64_t id)
         : id_(id)
@@ -24,6 +24,6 @@ namespace RestApi {
         return std::hash <decltype(id.id_)> ()(id.id_);
     }
 //#######################################################################################################
-} // namespace RestApi
+} // namespace REST
 
 

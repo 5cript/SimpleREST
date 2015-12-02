@@ -1,6 +1,6 @@
 #include "io_service_provider.hpp"
 
-namespace RestApi {
+namespace REST {
 
     IOServiceProvider::IOServiceProvider()
         : ioService()

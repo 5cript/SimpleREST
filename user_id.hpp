@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-namespace RestApi {
+namespace REST {
 
     struct UserIdHasher;
 
@@ -41,6 +41,6 @@ namespace RestApi {
         std::size_t operator()(UserId const& id) const;
     };
 
-} // namespace RestApi
+} // namespace REST
 
 #endif // USER_Id_HPP_INCLUDED

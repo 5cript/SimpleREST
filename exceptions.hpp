@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace RestApi {
+namespace REST {
 
     /**
      *  A RestServer Exception.
@@ -32,6 +32,6 @@ namespace RestApi {
         InvalidRequest(std::string message);
     };
 
-} // namespace RestApi
+} // namespace REST
 
 #endif // EXCEPTIONS_HPP_INCLUDED

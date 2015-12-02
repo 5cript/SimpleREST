@@ -6,7 +6,7 @@
 
 #include <functional>
 
-namespace RestApi {
+namespace REST {
     /**
      *  The Interface Provider makes declaring a RESTful interface
      *  a breeze. It provides methods to register request types on certain

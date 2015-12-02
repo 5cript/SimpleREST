@@ -1,12 +1,12 @@
 #ifndef FORWARD_HPP_INCLUDED
 #define FORWARD_HPP_INCLUDED
 
-namespace RestApi {
+namespace REST {
 
     class RestConnection;
     class RestServer;
 
-} // namespace RestApi
+} // namespace REST
 
 
 
