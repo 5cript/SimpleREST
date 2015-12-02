@@ -4,7 +4,7 @@
 
 using namespace boost::asio::ip;
 
-namespace Carbonide { namespace Server { namespace RestApi
+namespace RestApi
 {
 //#######################################################################################################
     RestServer::RestServer(std::function <void(std::shared_ptr <RestConnection>)> handler,
@@ -90,5 +90,3 @@ namespace Carbonide { namespace Server { namespace RestApi
     }
 //#######################################################################################################
 } // namespace RestApi
-} // namespace Server
-} // namespace Carbonides

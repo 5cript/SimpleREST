@@ -2,7 +2,7 @@
 
 #include <functional>
 
-namespace Carbonide { namespace Server { namespace RestApi {
+namespace RestApi {
 //#######################################################################################################
     UserId::UserId(uint64_t id)
         : id_(id)
@@ -25,5 +25,5 @@ namespace Carbonide { namespace Server { namespace RestApi {
     }
 //#######################################################################################################
 } // namespace RestApi
-} // namespace Server
-} // namespace Carbonide
+
+

@@ -9,7 +9,7 @@
 
 #include <iostream>
 
-namespace Carbonide { namespace Server { namespace RestApi
+namespace RestApi
 {
 //#######################################################################################################
     std::string extractFileExtension(std::string const& fileName)
@@ -213,5 +213,5 @@ namespace Carbonide { namespace Server { namespace RestApi
     }
 //#######################################################################################################
 } // namespace RestApi
-} // namespace Server
-} // namespace Carbonide
+
+

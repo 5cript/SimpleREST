@@ -3,7 +3,7 @@
 
 #include <unordered_map>
 
-namespace Carbonide { namespace Server { namespace RestApi {
+namespace RestApi {
 
     /**
      *  A data holder class for header entries.
@@ -17,7 +17,7 @@ namespace Carbonide { namespace Server { namespace RestApi {
     };
 
 } // namespace RestApi
-} // namespace Server
-} // namespace Carbonide
+
+
 
 #endif // HEADER_HPP_INCLUDED

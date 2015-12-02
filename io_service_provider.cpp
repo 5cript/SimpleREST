@@ -1,6 +1,6 @@
 #include "io_service_provider.hpp"
 
-namespace Carbonide { namespace Server {
+namespace RestApi {
 
     IOServiceProvider::IOServiceProvider()
         : ioService()
@@ -12,5 +12,4 @@ namespace Carbonide { namespace Server {
         return ioService;
     }
 
-} // namespace Server
-} // namespace Carbonide
+}

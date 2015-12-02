@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace Carbonide { namespace Server { namespace RestApi {
+namespace RestApi {
 
     // source: http://www.freeformatter.com/mime-types-list.html
     /**
@@ -15,7 +15,7 @@ namespace Carbonide { namespace Server { namespace RestApi {
     std::string extensionToMimeType(std::string const& extension);
 
 } // namespace RestApi
-} // namespace Server
-} // namespace Carbonide
+
+
 
 #endif // MIME_HPP_INCLUDED

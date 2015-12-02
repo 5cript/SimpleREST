@@ -2,7 +2,7 @@
 
 #include <unordered_map>
 
-namespace Carbonide { namespace Server { namespace RestApi
+namespace RestApi
 {
 //#######################################################################################################
 #   define MAP(A, B) {A, B},
@@ -702,5 +702,5 @@ namespace Carbonide { namespace Server { namespace RestApi
     }
 //#######################################################################################################
 } // namespace RestApi
-} // namespace Server
-} // namespace Carbonide
+
+

@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace Carbonide { namespace Server { namespace RestApi {
+namespace RestApi {
 
     /**
      *  A RestServer Exception.
@@ -33,7 +33,5 @@ namespace Carbonide { namespace Server { namespace RestApi {
     };
 
 } // namespace RestApi
-} // namespace Server
-} // namespace Carbonide
 
 #endif // EXCEPTIONS_HPP_INCLUDED

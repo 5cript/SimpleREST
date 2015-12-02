@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-namespace Carbonide { namespace Server { namespace RestApi {
+namespace RestApi {
 
     struct UserIdHasher;
 
@@ -42,7 +42,5 @@ namespace Carbonide { namespace Server { namespace RestApi {
     };
 
 } // namespace RestApi
-} // namespace Server
-} // namespace Carbonide
 
 #endif // USER_Id_HPP_INCLUDED

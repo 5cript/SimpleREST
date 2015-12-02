@@ -9,10 +9,10 @@
 #include "response.hpp"
 
 #ifndef Q_MOC_RUN // A Qt workaround, for those of you who use Qt
-#   include "../../lib/SimpleJSON/parse/jsd.h"
-#   include "../../lib/SimpleJSON/parse/jsd_convenience.h"
-#   include "../../lib/SimpleJSON/stringify/jss.h"
-#   include "../../lib/SimpleJSON/stringify/jss_fusion_adapted_struct.h"
+#   include "SimpleJSON/parse/jsd.h"
+#   include "SimpleJSON/parse/jsd_convenience.h"
+#   include "SimpleJSON/stringify/jss.h"
+#   include "SimpleJSON/stringify/jss_fusion_adapted_struct.h"
 #endif
 
 #include <string>
@@ -22,7 +22,7 @@
 #include <chrono>
 #include <functional>
 
-namespace Carbonide { namespace Server { namespace RestApi {
+namespace RestApi {
 
     using namespace std::literals;
 
@@ -243,8 +243,8 @@ namespace Carbonide { namespace Server { namespace RestApi {
     };
 
 } // namespace RestApi
-} // namespace Server
-} // namespace Carbonide
+
+
 
 
 #endif // CONNECTION_HPP_INCLUDED

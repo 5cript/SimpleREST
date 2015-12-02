@@ -14,7 +14,7 @@
 #include <mutex>
 #include <atomic>
 
-namespace Carbonide { namespace Server { namespace RestApi {
+namespace RestApi {
 
     /**
      *  A RESTful web service server. Provide a callback function which is called when a http request is made.
@@ -77,7 +77,7 @@ namespace Carbonide { namespace Server { namespace RestApi {
     };
 
 } // namespace RestApi
-} // namespace Server
-} // namespace Carbonide
+
+
 
 #endif // REST_SERVER_HPP_INCLUDED

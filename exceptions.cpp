@@ -1,6 +1,6 @@
 #include "exceptions.hpp"
 
-namespace Carbonide { namespace Server { namespace RestApi
+namespace RestApi
 {
 //#######################################################################################################
     RestException::RestException(std::string message)
@@ -21,6 +21,6 @@ namespace Carbonide { namespace Server { namespace RestApi
     }
 //#######################################################################################################
 } // namespace RestApi
-} // namespace Server
-} // namespace Carbonide
+
+
 

@@ -4,7 +4,7 @@
 #include <memory>
 #include <boost/asio.hpp>
 
-namespace Carbonide { namespace Server {
+namespace RestApi {
 
     /**
      *  A boost::asio::io_service provider.
@@ -39,7 +39,7 @@ namespace Carbonide { namespace Server {
         boost::asio::io_service ioService; // io_service
     };
 
-} // namespace Server
-} // namespace Carbonide
+} // namespace RestApi
+
 
 #endif // IO_SERVICE_PROVIDER_HPP_INCLUDED

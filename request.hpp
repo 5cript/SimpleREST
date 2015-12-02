@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace Carbonide { namespace Server { namespace RestApi {
+namespace RestApi {
 
     /**
      *  A holder for http requests.
@@ -17,7 +17,7 @@ namespace Carbonide { namespace Server { namespace RestApi {
     };
 
 } // namespace RestApi
-} // namespace Server
-} // namespace Carbonide
+
+
 
 #endif // REQUEST_HPP_INCLUDED

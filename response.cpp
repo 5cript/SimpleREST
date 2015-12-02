@@ -2,7 +2,7 @@
 
 #include <sstream>
 
-namespace Carbonide { namespace Server { namespace RestApi
+namespace RestApi
 {
 //#######################################################################################################
     std::string ResponseHeader::toString() const
@@ -28,5 +28,5 @@ namespace Carbonide { namespace Server { namespace RestApi
     }
 //#######################################################################################################
 } // namespace RestApi
-} // namespace Server
-} // namespace Carbonide
+
+

@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include <cstdint>
 
-namespace Carbonide { namespace Server { namespace RestApi {
+namespace RestApi {
 
     /**
      *  A pure holder for response information.
@@ -38,8 +38,8 @@ namespace Carbonide { namespace Server { namespace RestApi {
     };
 
 } // namespace RestApi
-} // namespace Server
-} // namespace Carbonide
+
+
 
 
 #endif // RESPONSE_HPP_INCLUDED
