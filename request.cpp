@@ -3,11 +3,9 @@
 namespace Rest {
 //#######################################################################################################
     Request::Request(std::shared_ptr <RestConnection>& connection,
-                     std::map <std::string, std::string> parameters,
-                     std::string type)
+                     std::unordered_map <std::string, std::string> parameters)
         : connection_(connection)
         , parameters_(std::move(parameters))
-        , requestType_(std::move(type))
     {
 
     }
@@ -35,7 +33,7 @@ namespace Rest {
 //-------------------------------------------------------------------------------------------------------
     std::string Request::getType()
     {
-
+        return connection_->getRequestHeader().requestType;
     }
 //#######################################################################################################
 }

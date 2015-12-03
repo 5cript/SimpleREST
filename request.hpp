@@ -5,6 +5,9 @@
 #include "connection.hpp"
 #include "request_header.hpp"
 
+#include <string>
+#include <unordered_map>
+
 namespace Rest {
     class Request
     {
@@ -77,13 +80,11 @@ namespace Rest {
     private:
         // cannot be created by user.
         Request(std::shared_ptr <RestConnection>& connection,
-                std::map <std::string, std::string> parameters,
-                std::string type);
+                std::unordered_map <std::string, std::string> parameters);
 
     private:
         std::shared_ptr <RestConnection> connection_;
-        std::map <std::string, std::string> parameters_;
-        std::string requestType_;
+        std::unordered_map <std::string, std::string> parameters_;
     };
 } // namespace Rest
 

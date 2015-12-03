@@ -2,6 +2,7 @@
 #define REQUEST_HEADER_HPP_INCLUDED
 
 #include <string>
+#include <unordered_map>
 
 namespace Rest {
 

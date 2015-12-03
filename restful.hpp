@@ -5,8 +5,11 @@
 #include "connection.hpp"
 #include "request.hpp"
 #include "response.hpp"
+#include "url_parser.hpp"
 
 #include <functional>
+#include <cstdint>
+#include <string>
 
 namespace Rest {
     /**
@@ -17,6 +20,8 @@ namespace Rest {
     class InterfaceProvider
     {
     public:
+        InterfaceProvider(uint32_t port);
+
         // no copy
         InterfaceProvider& operator=(InterfaceProvider const&) = delete;
         InterfaceProvider(InterfaceProvider const&) = delete;
@@ -28,7 +33,7 @@ namespace Rest {
          *  @param callback The function called when a client sends a request on the url.
          *
          */
-        InterfaceProvider& get(std::string const& url, std::function <void(Request&, Response&)> callback);
+        InterfaceProvider& get(std::string const& url, std::function <void(Request, Response)> callback);
 
         /**
          *  Registers a new put request handler.
@@ -37,7 +42,7 @@ namespace Rest {
          *  @param callback The function called when a client sends a request on the url.
          *
          */
-        InterfaceProvider& put(std::string const& url, std::function <void(Request&, Response&)> callback);
+        InterfaceProvider& put(std::string const& url, std::function <void(Request, Response)> callback);
 
         /**
          *  Registers a new post request handler.
@@ -46,7 +51,7 @@ namespace Rest {
          *  @param callback The function called when a client sends a request on the url.
          *
          */
-        InterfaceProvider& post(std::string const& url, std::function <void(Request&, Response&)> callback);
+        InterfaceProvider& post(std::string const& url, std::function <void(Request, Response)> callback);
 
         /**
          *  Registers a new delete request handler.
@@ -57,7 +62,7 @@ namespace Rest {
          *  @param callback The function called when a client sends a request on the url.
          *
          */
-        InterfaceProvider& remove(std::string const& url, std::function <void(Request&, Response&)> callback);
+        InterfaceProvider& remove(std::string const& url, std::function <void(Request, Response)> callback);
 
         /**
          *  Registers a new head request handler.
@@ -66,7 +71,7 @@ namespace Rest {
          *  @param callback The function called when a client sends a request on the url.
          *
          */
-        InterfaceProvider& head(std::string const& url, std::function <void(Request&, Response&)> callback);
+        InterfaceProvider& head(std::string const& url, std::function <void(Request, Response)> callback);
 
         /**
          *  Registers a new patch request handler.
@@ -75,17 +80,32 @@ namespace Rest {
          *  @param callback The function called when a client sends a request on the url.
          *
          */
-        InterfaceProvider& patch(std::string const& url, std::function <void(Request&, Response&)> callback);
+        InterfaceProvider& patch(std::string const& url, std::function <void(Request, Response)> callback);
+
+        void start();
+        void stop();
 
         // Needs special handling: trace, options
         // Not supported: connect
 
     private:
+        struct BuiltRequest {
+            Url url;
+            std::function <void(Request, Response)> callback;
+        };
+
+        bool matching(Url received, Url registered);
+        std::unordered_map <std::string, std::string> extractParameters(Url received, Url registered);
+
+    private:
+        void registerRequest(std::string const& type, std::string const& url, std::function <void(Request, Response)> callback);
+
         void connectionHandler(std::shared_ptr <RestConnection> connection);
         void errorHandler(std::shared_ptr <RestConnection> connection, InvalidRequest const& erroneousRequest);
 
     private:
         RestServer server_;
+        std::unordered_map <std::string, std::vector <BuiltRequest> > requests_;
     };
 }
 

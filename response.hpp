@@ -6,6 +6,7 @@
 #include "response_header.hpp"
 
 #include <string>
+#include <memory>
 
 namespace Rest {
     class Response
