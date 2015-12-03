@@ -53,18 +53,11 @@ namespace Rest {
         UserId getId() const;
 
         /**
-         *  Returns the request that has been parsed.
-         *
-         *  @return A request containing all info present in the first line of a request.
-         */
-        RequestHeader getRequest() const;
-
-        /**
-         *  Returns the http header entries.
+         *  Returns the request header
          *
          *  @return A header containing the key:value pairs.
          */
-        Header getHeader() const;
+        RequestHeader getRequestHeader() const;
 
         /**
          *  Returns the size of the body.
@@ -239,7 +232,6 @@ namespace Rest {
         boost::asio::ip::tcp::acceptor::endpoint_type endpoint_;
 
         RequestHeader request_;
-        Header head_;
     };
 
 } // namespace Rest

@@ -7,6 +7,8 @@ namespace Rest
 //#######################################################################################################
     Response::Response(std::shared_ptr <RestConnection>& connection)
         : connection_(connection)
+        , header_()
+        , statusSet_(false)
     {
 
     }
@@ -26,9 +28,22 @@ namespace Rest
         connection_->sendFile(fileName, autoDetectContentType, header_);
     }
 //-------------------------------------------------------------------------------------------------------
-    void Response::setHeaderEntry(std::string key, std::string value)
+    Response& Response::setHeaderEntry(std::string key, std::string value)
     {
         header_[key] = value;
+        return *this;
+    }
+//-------------------------------------------------------------------------------------------------------
+    void Response::end()
+    {
+
+    }
+//-------------------------------------------------------------------------------------------------------
+    void Response::redirect(std::string const& path)
+    {
+        setHeaderEntry("Location", path);
+        if (!statusSet_)
+            status(302);
     }
 //-------------------------------------------------------------------------------------------------------
     void Response::sendStatus(int code)
@@ -40,6 +55,7 @@ namespace Rest
     {
         header_.responseString = translateResponseCode(code);
         header_.responseCode = code;
+        statusSet_ = true;
         return *this;
     }
 //#######################################################################################################

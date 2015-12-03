@@ -3,6 +3,8 @@
 
 #include "server.hpp"
 #include "connection.hpp"
+#include "request.hpp"
+#include "response.hpp"
 
 #include <functional>
 
@@ -23,20 +25,57 @@ namespace Rest {
          *  Registers a new get request handler.
          *
          *  @param url The url to listen on. The syntax of is quite complex and documented elsewhere.
-         *  @param callback
+         *  @param callback The function called when a client sends a request on the url.
          *
          */
-        InterfaceProvider& get(std::string const& url, std::function <> callback);
+        InterfaceProvider& get(std::string const& url, std::function <void(Request&, Response&)> callback);
 
         /**
          *  Registers a new put request handler.
+         *
+         *  @param url The url to listen on. The syntax of is quite complex and documented elsewhere.
+         *  @param callback The function called when a client sends a request on the url.
+         *
          */
-        InterfaceProvider& put(std::string const& url, std::function <void(std::shared_ptr <RestConnection>)> callback);
-        InterfaceProvider& post(std::string const& url, std::function <void(std::shared_ptr <RestConnection>)> callback);
-        InterfaceProvider& delete(std::string const& url, std::function <void(std::shared_ptr <RestConnection>)> callback);
-        InterfaceProvider& head(std::string const& url, std::function <void(std::shared_ptr <RestConnection>)> callback);
-        InterfaceProvider& get(std::string const& url, std::function <void(std::shared_ptr <RestConnection>)> callback);
-        InterfaceProvider& patch(std::string const& url, std::function <void(std::shared_ptr <RestConnection>)> callback);
+        InterfaceProvider& put(std::string const& url, std::function <void(Request&, Response&)> callback);
+
+        /**
+         *  Registers a new post request handler.
+         *
+         *  @param url The url to listen on. The syntax of is quite complex and documented elsewhere.
+         *  @param callback The function called when a client sends a request on the url.
+         *
+         */
+        InterfaceProvider& post(std::string const& url, std::function <void(Request&, Response&)> callback);
+
+        /**
+         *  Registers a new delete request handler.
+         *  This functions is special, because the name is not standard.
+         *  We cannot use the delete keyword and do not want to use an underscore.
+         *
+         *  @param url The url to listen on. The syntax of is quite complex and documented elsewhere.
+         *  @param callback The function called when a client sends a request on the url.
+         *
+         */
+        InterfaceProvider& remove(std::string const& url, std::function <void(Request&, Response&)> callback);
+
+        /**
+         *  Registers a new head request handler.
+         *
+         *  @param url The url to listen on. The syntax of is quite complex and documented elsewhere.
+         *  @param callback The function called when a client sends a request on the url.
+         *
+         */
+        InterfaceProvider& head(std::string const& url, std::function <void(Request&, Response&)> callback);
+
+        /**
+         *  Registers a new patch request handler.
+         *
+         *  @param url The url to listen on. The syntax of is quite complex and documented elsewhere.
+         *  @param callback The function called when a client sends a request on the url.
+         *
+         */
+        InterfaceProvider& patch(std::string const& url, std::function <void(Request&, Response&)> callback);
 
         // Needs special handling: trace, options
         // Not supported: connect

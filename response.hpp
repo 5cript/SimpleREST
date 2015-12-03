@@ -61,11 +61,20 @@ namespace Rest {
         void sendStatus(int code);
 
         /**
+         *  Used for empty bodies. This is actually a 'no operation' function,
+         *  because things a finished, when your handler returns.
+         *  But it might transform send functions into nop's the future.
+         */
+        void end();
+
+        /**
          *  Sets the status code for the next send.
          *  Please not that the code defaults to 200 or 204 if not specified!
          *  This method is intended to be chained!
          *
          *  @param code A standard HTTP response code.
+         *
+         *  @return itself.
          */
         Response& status(int code);
 
@@ -75,8 +84,19 @@ namespace Rest {
          *
          *  @param key Key of header entry.
          *  @param value Value of header entry.
+         *
+         *  @return itself.
          */
-        void setHeaderEntry(std::string key, std::string value);
+        Response& setHeaderEntry(std::string key, std::string value);
+
+        /**
+         *  Redirects to another url / page.
+         *  Sets the Location header entry for that. The status code will default
+         *  to 302. Another code you should look into is 301.
+         *
+         *  @param path The path to redirect to. See HTTP Location header field.
+         */
+        void redirect(std::string const& path);
 
         /**
          *  Returns the connection to the client.
@@ -94,6 +114,7 @@ namespace Rest {
     private:
         std::shared_ptr <RestConnection> connection_;
         ResponseHeader header_;
+        bool statusSet_;
     };
 }
 

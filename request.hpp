@@ -21,6 +21,11 @@ namespace Rest {
         std::string getParameter(std::string const& id);
 
         /**
+         *  Returns the request type. Which is get, put, post, ...
+         */
+        std::string getType();
+
+        /**
          *  Parses the body as JSON and returns the fresh object.
          *
          *  @return The parsed object.
@@ -60,14 +65,25 @@ namespace Rest {
          */
         std::ostream& getStream(std::ostream& stream);
 
+        /**
+         *  Gets a field from the request header.
+         *
+         *  @param key The header entry key.
+         *
+         *  @return The corresponding value to the key. Will return an empty string if it was not specified.
+         */
+        std::string getHeaderField(std::string const& key);
+
     private:
         // cannot be created by user.
         Request(std::shared_ptr <RestConnection>& connection,
-                std::map <std::string, std::string> parameters);
+                std::map <std::string, std::string> parameters,
+                std::string type);
 
     private:
         std::shared_ptr <RestConnection> connection_;
         std::map <std::string, std::string> parameters_;
+        std::string requestType_;
     };
 } // namespace Rest
 

@@ -14,6 +14,8 @@ namespace Rest {
         std::string requestType;
         std::string httpVersion;
         std::string url;
+
+        std::unordered_map <std::string, std::string> entries;
     };
 
 } // namespace Rest

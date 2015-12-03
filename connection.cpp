@@ -36,7 +36,6 @@ namespace Rest
         , stream_()
         , endpoint_()
         , request_()
-        , head_()
     {
     }
 //-------------------------------------------------------------------------------------------------------
@@ -55,14 +54,9 @@ namespace Rest
         return id_;
     }
 //-------------------------------------------------------------------------------------------------------
-    RequestHeader RestConnection::getRequest() const
+    RequestHeader RestConnection::getRequestHeader() const
     {
         return request_;
-    }
-//-------------------------------------------------------------------------------------------------------
-    Header RestConnection::getHeader() const
-    {
-        return head_;
     }
 //-------------------------------------------------------------------------------------------------------
     std::size_t RestConnection::getBodySize() const
@@ -120,7 +114,7 @@ namespace Rest
             auto lhs = headerLine.substr(0, pos);
             auto rhs = headerLine.substr(pos + 1, headerLine.length() - pos);
 
-            head_.entries[lhs] = rhs;
+            request_.entries[lhs] = rhs;
         }
 
     }
