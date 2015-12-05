@@ -1,6 +1,7 @@
 #include "response.hpp"
 
 #include "response_code.hpp"
+#include "mime.hpp"
 
 namespace Rest
 {
@@ -11,6 +12,15 @@ namespace Rest
         , statusSet_(false)
     {
 
+    }
+//-------------------------------------------------------------------------------------------------------
+    Response& Response::type(std::string const& type)
+    {
+        auto mime = extensionToMimeType(std::string(".") + type);
+        if (mime.empty())
+            mime = type;
+        header_.responseHeaderPairs["Content-Type"] = type;
+        return *this;
     }
 //-------------------------------------------------------------------------------------------------------
     void Response::send(std::string const& message)
