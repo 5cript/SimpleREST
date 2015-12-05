@@ -19,7 +19,7 @@ namespace Rest {
          *
          *  @param message The string to send.
          */
-        void send(std::string const& message);
+        void send(std::string const& message = "");
 
         /**
          *  Stringifies an object and sends it back to the client.
@@ -98,6 +98,15 @@ namespace Rest {
          *  @param path The path to redirect to. See HTTP Location header field.
          */
         void redirect(std::string const& path);
+
+        /**
+         *  Sets the content type. such as "application/json".
+         *  if the passed type is a file extension (without dot), it will choose the correct type.
+         *  Check mime.cpp for a list of known extensions.
+         *
+         *  @param type custom Content-Type or file extension.
+         */
+        Response& type(std::string const& type);
 
         /**
          *  Returns the connection to the client.
