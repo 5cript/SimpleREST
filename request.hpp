@@ -4,6 +4,7 @@
 #include "forward.hpp"
 #include "connection.hpp"
 #include "request_header.hpp"
+#include "url.hpp"
 
 #include <string>
 #include <unordered_map>
@@ -22,6 +23,12 @@ namespace Rest {
          *  @return The value behind the id.
          */
         std::string getParameter(std::string const& id);
+
+        /**
+         *  Shorthand for getParameter.
+         *  @see getParameter
+         */
+        std::string param(std::string const& id);
 
         /**
          *  Returns the request type. Which is get, put, post, ...
@@ -69,6 +76,52 @@ namespace Rest {
         std::ostream& getStream(std::ostream& stream);
 
         /**
+         *  Gets the remote address.
+         *
+         *  @return Remote peer ip address.
+         */
+        std::string getRemoteAddress() const;
+
+        /**
+         *  Shorthand for getRemoteAddress.
+         *  @see getRemoteAddress.
+         */
+        std::string ip() const;
+
+        /**
+         *  Gets the request url sent by remote.
+         *
+         *  @return The unmodified remote url.
+         */
+        std::string getUrl() const;
+
+        /**
+         *  Returns the path part of the url.
+         *  "/users?sort=desc" => "/users"
+         *
+         *  @return Returns the path part of the url.
+         */
+        std::string getPath() const;
+
+        /**
+         *  Returns whether or not the client connected over a secure https connection.
+         *  As https is not supported yet, it will always return false.
+         *
+         *  @return false.
+         */
+        bool isSecure() const;
+
+        /**
+         *  Returns the query parameters.
+         *  "/users?sort=desc" => "sort = desc"
+         *
+         *  Only supports key=value pairs, the key must be unique
+         *
+         *  @return An assoicative container for the key value pairs.
+         */
+        std::unordered_map <std::string, std::string> getQuery() const;
+
+        /**
          *  Gets a field from the request header.
          *
          *  @param key The header entry key.
@@ -80,11 +133,13 @@ namespace Rest {
     private:
         // cannot be created by user.
         Request(std::shared_ptr <RestConnection>& connection,
-                std::unordered_map <std::string, std::string> parameters);
+                std::unordered_map <std::string, std::string> parameters,
+                Url url);
 
     private:
         std::shared_ptr <RestConnection> connection_;
         std::unordered_map <std::string, std::string> parameters_;
+        Url url_;
     };
 } // namespace Rest
 
