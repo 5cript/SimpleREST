@@ -64,23 +64,41 @@ namespace Rest
 //-------------------------------------------------------------------------------------------------------
     void InterfaceProvider::connectionHandler(std::shared_ptr <RestConnection> connection)
     {
-        auto url = ReducedUrlParser::parse(connection->getRequestHeader().url);
+        Url url;
+        try
+        {
+            url = ReducedUrlParser::parse(connection->getRequestHeader().url);
+        }
+        catch (...)
+        {
+            // invalid url
+            Response response (connection);
+            response.sendStatus(400);
+            return;
+        }
+
         auto type = connection->getRequestHeader().requestType;
         auto requestList = requests_.find(type);
 
         // is there any request matching the request type?
         if (requestList == std::end(requests_))
         {
-            if (type != "GET" && type != "POST" && type != "PUT" && type != "DELETE" && type != "HEAD" && type != "PATCH")
+            if (type != "GET" && type != "POST" && type != "PUT" && type != "DELETE" && type != "PATCH")
             {
                 Response response (connection);
                 response.sendStatus(501);
                 return;
             }
-            else
+            else if (type != "HEAD")
             {
                 Response response (connection);
                 response.sendStatus(404);
+                return;
+            }
+            else
+            {
+                Response response (connection);
+                response.status(404).send();
                 return;
             }
         }
@@ -100,7 +118,7 @@ namespace Rest
         auto params = extractParameters(url, request->url);
 
         request->callback(
-            Request {connection, params},
+            Request {connection, params, url},
             Response {connection}
         );
     }
