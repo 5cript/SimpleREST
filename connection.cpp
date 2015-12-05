@@ -130,12 +130,6 @@ namespace Rest
         auto size = reader.tellg();
         reader.seekg(0, reader.beg);
 
-        if (size == 0)
-        {
-            response.responseCode = 204;
-            response.responseString = "No Content";
-        }
-
         if (autoDetectContentType) {
             auto extension = extractFileExtension(fileName);
             auto type = extensionToMimeType(extension);
@@ -144,7 +138,16 @@ namespace Rest
         }
         response["Content-Length"] = std::to_string(size);
 
+        if (size == 0)
+        {
+            response.responseCode = 204;
+            response.responseString = "No Content";
+        }
         stream_ << response.toString();
+
+        if (size == 0)
+            return;
+
         char buffer[65536];
         do {
             reader.read(buffer, 65536);
@@ -155,9 +158,12 @@ namespace Rest
     void RestConnection::sendString(std::string const& text, ResponseHeader response)
     {
         response.responseHeaderPairs["Content-Length"] = std::to_string(text.length());
+        if (response.responseHeaderPairs.find("Content-Type") == std::end(response.responseHeaderPairs))
+            response.responseHeaderPairs["Content-Type"] = "text/plain; charset=UTF-8";
 
         stream_ << response.toString();
-        stream_ << text;
+        if (response.responseCode != 204)
+            stream_ << text;
     }
 //-------------------------------------------------------------------------------------------------------
     void RestConnection::sendHeader(ResponseHeader response)
