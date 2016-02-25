@@ -1,5 +1,4 @@
-#ifndef RestFUL_HPP_INCLUDED
-#define RestFUL_HPP_INCLUDED
+#pragma once
 
 #include "server.hpp"
 #include "connection.hpp"
@@ -108,5 +107,3 @@ namespace Rest {
         std::unordered_map <std::string, std::vector <BuiltRequest> > requests_;
     };
 }
-
-#endif // RestFUL_HPP_INCLUDED

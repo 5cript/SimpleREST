@@ -1,5 +1,4 @@
-#ifndef Rest_SERVER_HPP_INCLUDED
-#define Rest_SERVER_HPP_INCLUDED
+#pragma once
 
 #include "forward.hpp"
 #include "user_id.hpp"
@@ -77,7 +76,3 @@ namespace Rest {
     };
 
 } // namespace Rest
-
-
-
-#endif // Rest_SERVER_HPP_INCLUDED

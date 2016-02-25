@@ -1,5 +1,4 @@
-#ifndef RESPONSE_HPP_INCLUDED
-#define RESPONSE_HPP_INCLUDED
+#pragma once
 
 #include "forward.hpp"
 #include "connection.hpp"
@@ -127,5 +126,3 @@ namespace Rest {
         bool statusSet_;
     };
 }
-
-#endif // RESPONSE_HPP_INCLUDED

@@ -1,5 +1,4 @@
-#ifndef URL_PARSER_HPP_INCLUDED
-#define URL_PARSER_HPP_INCLUDED
+#pragma once
 
 #include "url.hpp"
 
@@ -25,5 +24,3 @@ namespace Rest
         static void parseQuery(std::string const& query, Url& url);
     };
 }
-
-#endif // URL_PARSER_HPP_INCLUDED

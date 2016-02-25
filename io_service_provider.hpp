@@ -1,5 +1,4 @@
-#ifndef IO_SERVICE_PROVIDER_HPP_INCLUDED
-#define IO_SERVICE_PROVIDER_HPP_INCLUDED
+#pragma once
 
 #include <memory>
 #include <boost/asio.hpp>
@@ -41,5 +40,3 @@ namespace Rest {
 
 } // namespace Rest
 
-
-#endif // IO_SERVICE_PROVIDER_HPP_INCLUDED

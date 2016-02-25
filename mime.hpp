@@ -1,5 +1,4 @@
-#ifndef MIME_HPP_INCLUDED
-#define MIME_HPP_INCLUDED
+#pragma once
 
 #include <string>
 
@@ -15,7 +14,3 @@ namespace Rest {
     std::string extensionToMimeType(std::string const& extension);
 
 } // namespace Rest
-
-
-
-#endif // MIME_HPP_INCLUDED

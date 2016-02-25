@@ -1,5 +1,4 @@
-#ifndef RESPONSE_CODE_HPP_INCLUDED
-#define RESPONSE_CODE_HPP_INCLUDED
+#pragma once
 
 namespace Rest {
     std::string translateResponseCode(int statusCode)
@@ -89,5 +88,3 @@ namespace Rest {
 		}
 	}
 }
-
-#endif // RESPONSE_CODE_HPP_INCLUDED

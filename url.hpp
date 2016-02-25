@@ -1,5 +1,4 @@
-#ifndef URL_HPP_INCLUDED
-#define URL_HPP_INCLUDED
+#pragma once
 
 #include <string>
 #include <vector>
@@ -75,5 +74,3 @@ namespace Rest
 
 
 }
-
-#endif // URL_HPP_INCLUDED

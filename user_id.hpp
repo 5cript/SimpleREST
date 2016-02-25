@@ -1,5 +1,4 @@
-#ifndef USER_Id_HPP_INCLUDED
-#define USER_Id_HPP_INCLUDED
+#pragma once
 
 #include <cstdint>
 
@@ -42,5 +41,3 @@ namespace Rest {
     };
 
 } // namespace Rest
-
-#endif // USER_Id_HPP_INCLUDED

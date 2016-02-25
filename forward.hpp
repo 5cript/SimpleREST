@@ -1,5 +1,4 @@
-#ifndef FORWARD_HPP_INCLUDED
-#define FORWARD_HPP_INCLUDED
+#pragma once
 
 namespace Rest {
 
@@ -9,6 +8,3 @@ namespace Rest {
 
 } // namespace Rest
 
-
-
-#endif // FORWARD_HPP_INCLUDED

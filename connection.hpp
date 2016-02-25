@@ -1,5 +1,4 @@
-#ifndef CONNECTION_HPP_INCLUDED
-#define CONNECTION_HPP_INCLUDED
+#pragma once
 
 #include "user_id.hpp"
 #include "forward.hpp"
@@ -236,7 +235,3 @@ namespace Rest {
 
 } // namespace Rest
 
-
-
-
-#endif // CONNECTION_HPP_INCLUDED

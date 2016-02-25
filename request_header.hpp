@@ -1,5 +1,4 @@
-#ifndef REQUEST_HEADER_HPP_INCLUDED
-#define REQUEST_HEADER_HPP_INCLUDED
+#pragma once
 
 #include <string>
 #include <unordered_map>
@@ -20,7 +19,3 @@ namespace Rest {
     };
 
 } // namespace Rest
-
-
-
-#endif // REQUEST_HEADER_HPP_INCLUDED

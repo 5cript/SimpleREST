@@ -1,5 +1,4 @@
-#ifndef EXCEPTIONS_HPP_INCLUDED
-#define EXCEPTIONS_HPP_INCLUDED
+#pragma once
 
 #include <exception>
 #include <stdexcept>
@@ -33,5 +32,3 @@ namespace Rest {
     };
 
 } // namespace Rest
-
-#endif // EXCEPTIONS_HPP_INCLUDED

@@ -1,5 +1,4 @@
-#ifndef REQUEST_HPP_INCLUDED
-#define REQUEST_HPP_INCLUDED
+#pragma once
 
 #include "forward.hpp"
 #include "connection.hpp"
@@ -142,5 +141,3 @@ namespace Rest {
         Url url_;
     };
 } // namespace Rest
-
-#endif // REQUEST_HPP_INCLUDED
