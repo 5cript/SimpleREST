@@ -14,35 +14,30 @@
 #   include "SimpleJSON/stringify/jss_fusion_adapted_struct.h"
 #endif
 
-#include <string>
-#include <memory>
 #include <boost/asio.hpp>
+
+#include <string>
+#include <sstream>
+#include <memory>
 #include <cmath>
 #include <chrono>
 #include <functional>
+#include <array>
+#include <vector>
 
 namespace Rest {
 
     using namespace std::literals;
 
     /**
-     *  A Rest connection to a client.
+     *  An asynchronous Rest connection to a client.
      */
-    class RestConnection : public std::enable_shared_from_this <RestConnection>
+    class AsyncRestConnection : public std::enable_shared_from_this <AsyncRestConnection>
     {
-        friend RestServer <RestConnection>;
+        friend RestServer <AsyncRestConnection>;
 
     public:
-        ~RestConnection() = default;
-
-        /**
-         *  Returns the socket iostream for writing.
-         *  Do not read the header from it.
-         *  It is recommended to call flush after writing everything to the stream.
-         *
-         *  @return A tcp::iostream. See boost asio documentation.
-         */
-        boost::asio::ip::tcp::iostream& getStream();
+        ~AsyncRestConnection() = default;
 
         /**
          *  Returns the connected clients id.
@@ -92,7 +87,7 @@ namespace Rest {
          *         such as response code, version and response message.
          */
         template <typename T>
-        void sendJson(T const& object, ResponseHeader response = {})
+        void sendJson(T const& object, std::function <void()> completionHandler, ResponseHeader response = {})
         {
             using namespace std::literals;
 
@@ -109,9 +104,9 @@ namespace Rest {
 
             body.seekg(0);
 
-            stream_ << response.toString();
-            stream_ << body.rdbuf();
-            stream_.flush();
+            write(response.toString(), [this, b{std::move(body)}, completionHandler](){
+                write(b.str(), completionHandler);
+            });
         }
 
         /**
@@ -128,7 +123,7 @@ namespace Rest {
          *  @param responseHeader A response header containing header information,
          *         such as response code, version and response message.
          */
-        void sendFile(std::string const& fileName, bool autoDetectContentType = true, ResponseHeader response = {});
+        void sendFile(std::string const& fileName, std::function <void()> completionHandler, bool autoDetectContentType = true, ResponseHeader response = {});
 
         /**
          *  Sends a string. You must set the content type yourself on the response parameter.
@@ -144,14 +139,14 @@ namespace Rest {
          *  @param response A response header containing header information,
          *         such as response code, version and response message.
          */
-        void sendString(std::string const& text, ResponseHeader response);
+        void sendString(std::string const& text, ResponseHeader response, std::function <void()> completionHandler);
 
         /**
          *  Sends only the header and an empty body.
          *
          *  @param response The header information to send.
          */
-        void sendHeader(ResponseHeader response);
+        void sendHeader(ResponseHeader response, std::function <void()> completionHandler);
 
         /**
          *  Reads the body as a text string.
@@ -161,7 +156,7 @@ namespace Rest {
          *
          *  @return The body.
          */
-        std::string readString(std::chrono::duration <long> const& timeout = 3s);
+        void readString(std::function <void(std::st)> completionHandler, std::chrono::duration <long> const& timeout = 3s);
 
         /**
          *  Reads the socket content to a stream.
@@ -172,7 +167,7 @@ namespace Rest {
          *
          *  @return The passed stream
          */
-        std::ostream& readStream(std::ostream& stream, std::chrono::duration <long> const& timeout = 3s);
+        std::ostream& readStream(std::ostream& stream, std::function <void()> completionHandler, std::chrono::duration <long> const& timeout = 3s);
 
         /**
          *  Reads the body and tries to parse it as JSON.
@@ -182,9 +177,10 @@ namespace Rest {
          *  @param object Writes the JSON into this object.
          */
         template <typename T>
-        void readJson(T& object, std::chrono::duration <long> const& timeout = 3s)
+        void readJson(std::function <void(T const&)> completionHandler, std::chrono::duration <long> const& timeout = 3s)
         {
-            auto json = "{content:" + readString(timeout) + "}";
+            readString(timeout);
+            auto json = "{content:" +  + "}";
             auto tree = JSON::parse_json(json);
             JSON::parse(object, "content", tree);
         }
@@ -202,12 +198,12 @@ namespace Rest {
          *  Users shall never create a connection on their own,
          *  this makes no sense.
          */
-        RestConnection(RestServer <RestConnection>* owner, UserId const& id);
+        AsyncRestConnection(RestServer <AsyncRestConnection>* owner, UserId const& id);
 
         /**
          *  Reads and parses the head.
          */
-        void readHead();
+        void readHead(std::function <void(std::shared_ptr <AsyncRestConnection>)> cb);
 
         /**
          *  Closes the connection and removes it from the server list.
@@ -218,7 +214,7 @@ namespace Rest {
          *  Pass this to async_accept
          */
         auto& getAcceptHandle() {
-            return *getStream().rdbuf();
+            return socket_;
         }
 
         /**
@@ -229,16 +225,29 @@ namespace Rest {
         /**
          *  Internal function that reduces code duplication
          */
-        void read(std::function <void(char const*, long)> writer, std::chrono::duration <long> const& timeout);
+        void read(std::function <void(char const*, long)> writer, std::chrono::duration <long> const& timeout,
+                  std::function <void()> completionHandler, std::size_t totalBytesRead = 0,
+                  std::chrono::time_point<std::chrono::system_clock> opStart = std::chrono::system_clock::now());
+
+        /**
+         *  Internal function to write data to the socket.
+         */
+        void write(const char* buffer, std::size_t size, std::function <void()> completionHandler);
+
+        /**
+         *  Internal function to write data to the socket.
+         */
+        void write(std::string const& str, std::function <void()> completionHandler);
 
     private:
-        RestServer <RestConnection>* owner_;
+        RestServer <AsyncRestConnection>* owner_;
         UserId id_;
-        boost::asio::ip::tcp::iostream stream_;
+        boost::asio::ip::tcp::socket socket_;
         boost::asio::ip::tcp::acceptor::endpoint_type endpoint_;
+        std::string headerBuffer_;
+        std::vector <char> bodyBeginning_;
+        std::array <char, 8192> readBuffer_;
 
         RequestHeader request_;
     };
-
 } // namespace Rest
-

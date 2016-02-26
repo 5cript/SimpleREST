@@ -6,8 +6,9 @@
 namespace Rest
 {
 //#######################################################################################################
-    InterfaceProvider::InterfaceProvider(uint32_t port)
+    InterfaceProvider::InterfaceProvider(uint32_t port, boost::asio::io_service* ioService)
         : server_(
+            ioService,
             std::bind(connectionHandler, this, std::placeholders::_1),
             std::bind(errorHandler, this, std::placeholders::_1, std::placeholders::_2),
             port
@@ -62,7 +63,7 @@ namespace Rest
         server_.stop();
     }
 //-------------------------------------------------------------------------------------------------------
-    void InterfaceProvider::connectionHandler(std::shared_ptr <RestConnection> connection)
+    void InterfaceProvider::connectionHandler(std::shared_ptr <AsyncRestConnection> connection)
     {
         Url url;
         try
@@ -123,7 +124,7 @@ namespace Rest
         );
     }
 //-------------------------------------------------------------------------------------------------------
-    void InterfaceProvider::errorHandler(std::shared_ptr <RestConnection> connection, InvalidRequest const& erroneousRequest)
+    void InterfaceProvider::errorHandler(std::shared_ptr <AsyncRestConnection> connection, InvalidRequest const& erroneousRequest)
     {
         Response response (connection);
         response.sendStatus(400);

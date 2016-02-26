@@ -2,13 +2,18 @@
 
 #include "forward.hpp"
 #include "connection.hpp"
+#include "async_connection.hpp"
 #include "response_header.hpp"
+#include "response_code.hpp"
+#include "mime.hpp"
 
 #include <string>
 #include <memory>
 
 namespace Rest {
-    class Response
+
+    template <typename ConnectionType>
+    class GenericResponse
     {
         friend InterfaceProvider;
 
@@ -18,7 +23,10 @@ namespace Rest {
          *
          *  @param message The string to send.
          */
-        void send(std::string const& message = "");
+        void send(std::string const& message = "")
+        {
+            connection_->sendString(message, header_);
+        }
 
         /**
          *  Stringifies an object and sends it back to the client.
@@ -48,7 +56,10 @@ namespace Rest {
          *  @param responseHeader A response header containing header information,
          *         such as response code, version and response message.
          */
-        void sendFile(std::string const& fileName, bool autoDetectContentType = true);
+        void sendFile(std::string const& fileName, bool autoDetectContentType = true)
+        {
+            connection_->sendFile(fileName, autoDetectContentType, header_);
+        }
 
         /**
          *  Sends a status code with the string representation as body.
@@ -58,14 +69,17 @@ namespace Rest {
          *
          *  @param code A standard HTTP response code.
          */
-        void sendStatus(int code);
+        void sendStatus(int code)
+        {
+            status(code).send(header_.responseString);
+        }
 
         /**
          *  Used for empty bodies. This is actually a 'no operation' function,
          *  because things a finished, when your handler returns.
          *  But it might transform send functions into nop's the future.
          */
-        void end();
+        void end(){}
 
         /**
          *  Sets the status code for the next send.
@@ -76,7 +90,13 @@ namespace Rest {
          *
          *  @return itself.
          */
-        Response& status(int code);
+        GenericResponse <ConnectionType>& status(int code)
+        {
+            header_.responseString = translateResponseCode(code);
+            header_.responseCode = code;
+            statusSet_ = true;
+            return *this;
+        }
 
         /**
          *  Sets a header key value pair. Adds it if it were not existing.
@@ -87,7 +107,11 @@ namespace Rest {
          *
          *  @return itself.
          */
-        Response& setHeaderEntry(std::string key, std::string value);
+        GenericResponse <ConnectionType>& setHeaderEntry(std::string key, std::string value)
+        {
+            header_[key] = value;
+            return *this;
+        }
 
         /**
          *  Redirects to another url / page.
@@ -96,7 +120,12 @@ namespace Rest {
          *
          *  @param path The path to redirect to. See HTTP Location header field.
          */
-        void redirect(std::string const& path);
+        void redirect(std::string const& path)
+        {
+            setHeaderEntry("Location", path);
+            if (!statusSet_)
+                status(302);
+        }
 
         /**
          *  Sets the content type. such as "application/json".
@@ -105,24 +134,41 @@ namespace Rest {
          *
          *  @param type custom Content-Type or file extension.
          */
-        Response& type(std::string const& type);
+        GenericResponse <ConnectionType>& type(std::string const& type)
+        {
+            auto mime = extensionToMimeType(std::string(".") + type);
+            if (mime.empty())
+                mime = type;
+            header_.responseHeaderPairs["Content-Type"] = type;
+            return *this;
+        }
 
         /**
          *  Returns the connection to the client.
          *  Can be useful to access more delicate and low level things.
          *  Please do not abuse!
          *
-         *  @return Returns a RestConnection reference
+         *  @return Returns a ConnectionType reference
          */
-        RestConnection& getConnection();
+        ConnectionType& getConnection()
+        {
+            return *connection_;
+        }
 
     private:
         // cannot be created by user.
-        Response(std::shared_ptr <RestConnection>& connection);
+        GenericResponse(std::shared_ptr <ConnectionType>& connection)
+            : connection_(connection)
+            , header_()
+            , statusSet_(false)
+        {
+        }
 
     private:
-        std::shared_ptr <RestConnection> connection_;
+        std::shared_ptr <ConnectionType> connection_;
         ResponseHeader header_;
         bool statusSet_;
     };
+
+    using Response = GenericResponse <AsyncRestConnection>;
 }

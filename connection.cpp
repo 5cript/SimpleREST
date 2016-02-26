@@ -1,6 +1,7 @@
 #include "connection.hpp"
 #include "server.hpp"
 #include "mime.hpp"
+#include "detail/fs_utility.hpp"
 
 #include <fstream>
 #include <stdexcept>
@@ -12,25 +13,9 @@
 namespace Rest
 {
 //#######################################################################################################
-    std::string extractFileExtension(std::string const& fileName)
-    {
-        std::string extension;
-        auto slpos = fileName.rfind("/");
-        if (slpos == std::string::npos)
-            slpos = fileName.rfind("\\");
-        if (slpos != std::string::npos)
-            extension = fileName.substr(slpos, extension.length() - slpos);
-        else
-            return "";
 
-        auto dotpos = extension.find(".");
-        if (dotpos == std::string::npos)
-            return "";
-        else
-            return extension.substr(dotpos, extension.length() - dotpos);
-    }
 //#######################################################################################################
-    RestConnection::RestConnection(RestServer* owner, UserId const& id)
+    RestConnection::RestConnection(RestServer <RestConnection>* owner, UserId const& id)
         : owner_(owner)
         , id_(id)
         , stream_()

@@ -3,6 +3,9 @@
 #include <memory>
 #include <boost/asio.hpp>
 
+#include <thread>
+#include <atomic>
+
 namespace Rest {
 
     /**
@@ -16,7 +19,7 @@ namespace Rest {
     {
     public:
         // concopyable
-        ~IOServiceProvider() = default;
+        ~IOServiceProvider();
         IOServiceProvider(IOServiceProvider const&) = delete;
         IOServiceProvider& operator=(IOServiceProvider const&) = delete;
 
@@ -35,7 +38,10 @@ namespace Rest {
 
     private:
         IOServiceProvider(); // not constructible
+
         boost::asio::io_service ioService; // io_service
+        std::atomic_bool running_;
+        std::thread worker_;
     };
 
 } // namespace Rest

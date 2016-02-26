@@ -3,8 +3,11 @@
 namespace Rest {
 
     class RestConnection;
-    class RestServer;
     class InterfaceProvider;
+    class AsyncRestConnection;
+
+    template <typename ConnectionType>
+    class RestServer;
 
 } // namespace Rest
 

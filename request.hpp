@@ -2,6 +2,7 @@
 
 #include "forward.hpp"
 #include "connection.hpp"
+#include "async_connection.hpp"
 #include "request_header.hpp"
 #include "url.hpp"
 
@@ -9,7 +10,9 @@
 #include <unordered_map>
 
 namespace Rest {
-    class Request
+
+    template <typename ConnectionType>
+    class GenericRequest
     {
         friend InterfaceProvider;
 
@@ -21,18 +24,27 @@ namespace Rest {
          *
          *  @return The value behind the id.
          */
-        std::string getParameter(std::string const& id);
+        std::string getParameter(std::string const& id)
+        {
+            return parameters_[id];
+        }
 
         /**
          *  Shorthand for getParameter.
          *  @see getParameter
          */
-        std::string param(std::string const& id);
+        std::string param(std::string const& id)
+        {
+            return getParameter(id);
+        }
 
         /**
          *  Returns the request type. Which is get, put, post, ...
          */
-        std::string getType();
+        std::string getType()
+        {
+            return connection_->getRequestHeader().requestType;
+        }
 
         /**
          *  Parses the body as JSON and returns the fresh object.
@@ -63,7 +75,10 @@ namespace Rest {
          *
          *  @return Returns the body as a string.
          */
-        std::string getString();
+        std::string getString()
+        {
+            return connection_->readString();
+        }
 
         /**
          *  Writes the body into a stream.
@@ -72,27 +87,39 @@ namespace Rest {
          *
          *  @return The body as a stream.
          */
-        std::ostream& getStream(std::ostream& stream);
+        std::ostream& getStream(std::ostream& stream)
+        {
+            return connection_->readStream(stream);
+        }
 
         /**
          *  Gets the remote address.
          *
          *  @return Remote peer ip address.
          */
-        std::string getRemoteAddress() const;
+        std::string getRemoteAddress() const
+        {
+            return connection_->getAddress();
+        }
 
         /**
          *  Shorthand for getRemoteAddress.
          *  @see getRemoteAddress.
          */
-        std::string ip() const;
+        std::string ip() const
+        {
+            return getRemoteAddress();
+        }
 
         /**
          *  Gets the request url sent by remote.
          *
          *  @return The unmodified remote url.
          */
-        std::string getUrl() const;
+        std::string getUrl() const
+        {
+            return connection_->getRequestHeader().url;
+        }
 
         /**
          *  Returns the path part of the url.
@@ -100,7 +127,10 @@ namespace Rest {
          *
          *  @return Returns the path part of the url.
          */
-        std::string getPath() const;
+        std::string getPath() const
+        {
+            return url_.path;
+        }
 
         /**
          *  Returns whether or not the client connected over a secure https connection.
@@ -108,7 +138,10 @@ namespace Rest {
          *
          *  @return false.
          */
-        bool isSecure() const;
+        bool isSecure() const
+        {
+            return false;
+        }
 
         /**
          *  Returns the query parameters.
@@ -118,7 +151,10 @@ namespace Rest {
          *
          *  @return An assoicative container for the key value pairs.
          */
-        std::unordered_map <std::string, std::string> getQuery() const;
+        std::unordered_map <std::string, std::string> getQuery() const
+        {
+            return url_.query;
+        }
 
         /**
          *  Gets a field from the request header.
@@ -127,17 +163,29 @@ namespace Rest {
          *
          *  @return The corresponding value to the key. Will return an empty string if it was not specified.
          */
-        std::string getHeaderField(std::string const& key);
+        std::string getHeaderField(std::string const& key)
+        {
+            // it does not hurt to add it if nonexistant, because it will be empty
+            return connection_->getRequestHeader().entries[key];
+        }
 
     private:
         // cannot be created by user.
-        Request(std::shared_ptr <RestConnection>& connection,
+        GenericRequest(std::shared_ptr <ConnectionType>& connection,
                 std::unordered_map <std::string, std::string> parameters,
-                Url url);
+                Url url)
+            : connection_(connection)
+            , parameters_(std::move(parameters))
+            , url_(std::move(url))
+        {
+        }
 
     private:
-        std::shared_ptr <RestConnection> connection_;
+        std::shared_ptr <ConnectionType> connection_;
         std::unordered_map <std::string, std::string> parameters_;
         Url url_;
     };
+
+    using Request = GenericRequest <AsyncRestConnection>;
+
 } // namespace Rest

@@ -5,6 +5,7 @@
 #include "request.hpp"
 #include "response.hpp"
 #include "url_parser.hpp"
+#include "io_service_provider.hpp"
 
 #include <functional>
 #include <cstdint>
@@ -19,7 +20,7 @@ namespace Rest {
     class InterfaceProvider
     {
     public:
-        InterfaceProvider(uint32_t port);
+        InterfaceProvider(uint32_t port, boost::asio::io_service* ioService = &IOServiceProvider::getInstance().getIOService());
 
         // no copy
         InterfaceProvider& operator=(InterfaceProvider const&) = delete;
@@ -99,11 +100,11 @@ namespace Rest {
     private:
         void registerRequest(std::string const& type, std::string const& url, std::function <void(Request, Response)> callback);
 
-        void connectionHandler(std::shared_ptr <RestConnection> connection);
-        void errorHandler(std::shared_ptr <RestConnection> connection, InvalidRequest const& erroneousRequest);
+        void connectionHandler(std::shared_ptr <AsyncRestConnection> connection);
+        void errorHandler(std::shared_ptr <AsyncRestConnection> connection, InvalidRequest const& erroneousRequest);
 
     private:
-        RestServer server_;
+        RestServer <AsyncRestConnection> server_;
         std::unordered_map <std::string, std::vector <BuiltRequest> > requests_;
     };
 }
