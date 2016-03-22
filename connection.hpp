@@ -184,7 +184,7 @@ namespace Rest {
         template <typename T>
         void readJson(T& object, std::chrono::duration <long> const& timeout = 3s)
         {
-            auto json = "{content:" + readString(timeout) + "}";
+            auto json = "{\"content\":" + readString(timeout) + "}";
             auto tree = JSON::parse_json(json);
             JSON::parse(object, "content", tree);
         }
