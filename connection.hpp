@@ -8,11 +8,19 @@
 #include "request_header.hpp"
 
 #ifndef Q_MOC_RUN // A Qt workaround, for those of you who use Qt
-#   include "SimpleJSON/parse/jsd.h"
-#   include "SimpleJSON/parse/jsd_convenience.h"
-#   include "SimpleJSON/stringify/jss.h"
-#   include "SimpleJSON/stringify/jss_fusion_adapted_struct.h"
+#   ifdef SREST_SUPPORT_JSON
+#       include "SimpleJSON/parse/jsd.h"
+#       include "SimpleJSON/parse/jsd_convenience.h"
+#       include "SimpleJSON/stringify/jss.h"
+#       include "SimpleJSON/stringify/jss_fusion_adapted_struct.h"
+#   endif
+#
+#	ifdef SREST_SUPPORT_XML
+#   	include "SimpleXML/xmlify/xmlify.hpp"
+#	endif // SREST_SUPPORT_XML
 #endif
+
+
 
 #include <string>
 #include <memory>
@@ -79,6 +87,7 @@ namespace Rest {
          */
         uint32_t getPort() const;
 
+#ifdef SREST_SUPPORT_JSON
         /**
          *  Send JSON response. uses SimpleJSON library to stringify the object.
          *  Automatically sets the following header key/value pairs
@@ -113,6 +122,44 @@ namespace Rest {
             stream_ << body.rdbuf();
             stream_.flush();
         }
+#endif // SREST_SUPPORT_JSON
+
+#ifdef SREST_SUPPORT_XML
+        /**
+         *  Send XML response. uses SimpleXML library
+         *  Automatically sets the following header key/value pairs
+         *
+         *  Content-Type: text/xml; charset=UTF-8
+         *  Content-Length: ...
+         *  Connection: close
+         *
+         *  @param object An object to xmlify.
+         *  @param name The name of the root xml node, as such is required.
+         *  @param responseHeader A response header containing header information,
+         *         such as response code, version and response message.
+         */
+        template <typename T>
+        void sendXml(T const& object, std::string const& name = "body", ResponseHeader response = {})
+        {
+            using namespace std::literals;
+
+            response.responseHeaderPairs["Content-Type"s] = "text/xml; charset=UTF-8"s;
+
+            std::stringstream body;
+            body << "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
+            SXML::xmlify(body, name, object);
+
+            auto bodySize = body.tellp();
+            response.responseHeaderPairs["Content-Length"s] = std::to_string(bodySize);
+            response.responseHeaderPairs["Connection"s] = "close"s;
+
+            body.seekg(0);
+
+            stream_ << response.toString();
+            stream_ << body.rdbuf();
+            stream_.flush();
+        }
+#endif // SREST_SUPPORT_XML
 
         /**
          *  Sends a file as content.
@@ -174,6 +221,7 @@ namespace Rest {
          */
         std::ostream& readStream(std::ostream& stream, std::chrono::duration <long> const& timeout = 3s);
 
+#ifdef SREST_SUPPORT_JSON
         /**
          *  Reads the body and tries to parse it as JSON.
          *  Please be aware the reading the stream content reads it all.
@@ -188,6 +236,7 @@ namespace Rest {
             auto tree = JSON::parse_json(json);
             JSON::parse(object, "content", tree);
         }
+#endif
 
         /**
          *  Returns whether or not the body contains any data.

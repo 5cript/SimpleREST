@@ -34,6 +34,7 @@ namespace Rest {
          */
         std::string getType();
 
+#ifdef SREST_SUPPORT_JSON
         /**
          *  Parses the body as JSON and returns the fresh object.
          *
@@ -57,6 +58,7 @@ namespace Rest {
         {
             connection_->readJson(obj);
         }
+#endif // SREST_SUPPORT_JSON
 
         /**
          *  Returns the body as a string.

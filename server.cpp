@@ -2,6 +2,9 @@
 #include "io_service_provider.hpp"
 #include "connection.hpp"
 
+// REMOVE ME
+#include <iostream>
+
 using namespace boost::asio::ip;
 
 namespace Rest
@@ -46,7 +49,8 @@ namespace Rest
                 boost::system::error_code ec;
                 boost::asio::ip::tcp::acceptor::endpoint_type remoteEndpoint;
                 acceptor_->accept(*connection->getStream().rdbuf(), remoteEndpoint, ec);
-                if (!ec) {
+                if (!ec)
+                {
                     connection->setEndpoint(remoteEndpoint);
                     // LOCK_SCOPE
                     {
@@ -60,11 +64,13 @@ namespace Rest
                         } catch (InvalidRequest const& exc) {
                             errorHandler_(connection, exc);
                         }
+                        catch (std::exception const& exc) {
+                            std::cerr << "BAD ERROR: " << exc.what() << "\n";
+                            std::terminate();
+                            // std::terminate - do not handle unexpected exceptions.
+                            // we don't wanna catch our programming errors ;)
+                        }
                         connection->free();
-                        //catch (...) {
-                        // std::terminate - do not handle unexpected exceptions.
-                        // we don't wanna catch our programming errors ;)
-                        //}
                     }).detach();
                 }
             }
@@ -74,7 +80,11 @@ namespace Rest
     void RestServer::stop()
     {
         // dont touch the ordering. Everything else deadlock
-        acceptor_.reset();
+        try {
+            acceptor_.reset();
+        } catch (std::exception const&) {
+
+        }
         listening_.store(false);
 
         if (acceptingThread_.joinable());

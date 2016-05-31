@@ -20,6 +20,7 @@ namespace Rest {
          */
         void send(std::string const& message = "");
 
+#ifdef SREST_SUPPORT_JSON
         /**
          *  Stringifies an object and sends it back to the client.
          *
@@ -40,6 +41,31 @@ namespace Rest {
         {
             json(obj, header_);
         }
+#endif // SREST_SUPPORT_JSON
+
+#ifdef SREST_SUPPORT_XML
+        /**
+         *  Xmlifies an object and sends it back to the client.
+         *
+         *  @param obj The object to xmlify and send.
+         *  @param rootName The name of the root xml node.
+         */
+        template <typename T>
+        void xml(T const& obj, std::string const& rootName = "body")
+        {
+            connection_->sendXml(obj, rootName, header_);
+        }
+
+        /**
+         *  Alias for xml
+         *  @see xml
+         */
+         template <typename T>
+         void sendXml(T const& obj, std::string const& rootName = "body")
+         {
+             xml(obj, rootName, header_);
+         }
+#endif // SREST_SUPPORT_XML
 
         /**
          *  Sends a file back to the client.
