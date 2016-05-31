@@ -26,7 +26,7 @@ Optional Dependencies:
 You may for now add all sources and headers to your project or build system. Dynamic library builds are not supported.
 
 To build this library a conformant C++14 compiler is required (tested on g++ 5.3.0)
--lboost_system-mt (-mt indicates the multithread build)
+You will have to link against boost_system and, if you are using windows, ws2_32.
 
 ## Example 1
 ```C++
