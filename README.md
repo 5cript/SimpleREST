@@ -1,5 +1,5 @@
 # SimpleREST
-A RESTful webservice for minimalists. Featuring SimpleJSON parser and generator. Using boost asio.
+A RESTful webservice library for minimalists. Featuring SimpleJSON parser and generator. Using boost asio.
 
 ## Preface
 This REST server is not meant for high frequency or high load applications,
