@@ -28,6 +28,15 @@ You may for now add all sources and headers to your project or build system. Dyn
 To build this library a conformant C++14 compiler is required (tested on g++ 5.3.0)
 You will have to link against boost_system and, if you are using windows, ws2_32.
 
+## Where can I find detailed documentation?
+The following headers contain useful documentation:
+- response.hpp
+- request.hpp
+- restful.hpp
+- connection.hpp (never used directly)
+
+You can also generate doxygen documentation from it. 
+
 ## Example 1
 ```C++
 #include "SimpleREST/restful.hpp"
