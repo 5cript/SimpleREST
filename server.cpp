@@ -87,7 +87,7 @@ namespace Rest
         }
         listening_.store(false);
 
-        if (acceptingThread_.joinable());
+        if (acceptingThread_.joinable())
             acceptingThread_.join();
     }
 //-------------------------------------------------------------------------------------------------------

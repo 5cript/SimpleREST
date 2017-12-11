@@ -9,10 +9,10 @@
 
 #ifndef Q_MOC_RUN // A Qt workaround, for those of you who use Qt
 #   ifdef SREST_SUPPORT_JSON
-#       include "SimpleJSON/parse/jsd.h"
-#       include "SimpleJSON/parse/jsd_convenience.h"
-#       include "SimpleJSON/stringify/jss.h"
-#       include "SimpleJSON/stringify/jss_fusion_adapted_struct.h"
+#       include "SimpleJSON/parse/jsd.hpp"
+#       include "SimpleJSON/parse/jsd_convenience.hpp"
+#       include "SimpleJSON/stringify/jss.hpp"
+#       include "SimpleJSON/stringify/jss_fusion_adapted_struct.hpp"
 #   endif
 #
 #	ifdef SREST_SUPPORT_XML
