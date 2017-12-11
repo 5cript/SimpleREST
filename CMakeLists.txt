@@ -7,6 +7,9 @@ project(SimpleREST)
 # Add files
 file(GLOB sources "*.cpp")
 
+# Search Directories
+include_directories("..")
+
 # Libraries
 add_library(SimpleREST STATIC ${sources})
 
@@ -16,6 +19,7 @@ find_package(Boost REQUIRED COMPONENTS
 
 find_library(LATOMIC atomic)
 find_library(LSIMPLEJSON NAMES SimpleJSON PATHS "../SimpleJSON/build" "SimpleJSON/build" STATIC)
+find_library(LSIMPLEXML NAMES SimpleXML PATHS "../SimpleXML/build" "SimpleXML/build" STATIC)
 find_library(LPTHREAD pthread)
 
 # MS SOCK
@@ -42,6 +46,18 @@ if(LATOMIC STREQUAL "LATOMIC-NOTFOUND")
 endif()
 if(LPTHREAD STREQUAL "LPTHREAD-NOTFOUND")
 	set(LPTHREAD "")
+endif()
+
+
+if(LSIMPLEJSON STREQUAL "LSIMPLEJSON-NOTFOUND")
+	set(LSIMPLEJSON "")
+else()
+	add_definitions(-DSREST_SUPPORT_JSON)
+endif()
+if(LSIMPLEXML STREQUAL "LSIMPLEXML-NOTFOUND")
+	set(LSIMPLEXML "")
+else()
+	add_definitions(-DSREST_SUPPORT_XML)
 endif()
 
 target_link_libraries(SimpleREST Boost::system ${LWS2_32} ${LMSWSOCK} ${LATOMIC} ${LPTHREAD})
