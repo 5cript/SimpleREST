@@ -17,10 +17,8 @@ find_package(Boost REQUIRED COMPONENTS
 	system
 )
 
-find_library(LATOMIC atomic)
 find_library(LSIMPLEJSON NAMES SimpleJSON PATHS "../SimpleJSON/build" "SimpleJSON/build" STATIC)
 find_library(LSIMPLEXML NAMES SimpleXML PATHS "../SimpleXML/build" "SimpleXML/build" STATIC)
-find_library(LPTHREAD pthread)
 
 # MS SOCK
 if (WIN32)
@@ -41,14 +39,6 @@ else()
 	set(LMSWSOCK "")
 endif()
 
-if(LATOMIC STREQUAL "LATOMIC-NOTFOUND")
-	set(LATOMIC "")
-endif()
-if(LPTHREAD STREQUAL "LPTHREAD-NOTFOUND")
-	set(LPTHREAD "")
-endif()
-
-
 if(LSIMPLEJSON STREQUAL "LSIMPLEJSON-NOTFOUND")
 	set(LSIMPLEJSON "")
 else()
@@ -60,7 +50,11 @@ else()
 	add_definitions(-DSREST_SUPPORT_XML)
 endif()
 
-target_link_libraries(SimpleREST Boost::system ${LWS2_32} ${LMSWSOCK} ${LATOMIC} ${LPTHREAD})
+message("-- External libraries")
+message("	${LSIMPLEXML}")
+message("	${LSIMPLEJSON}")
+
+target_link_libraries(SimpleREST ${LSIMPLEJSON} ${LSIMPLEXML} Boost::system ${LWS2_32} ${LMSWSOCK})
 
 # Compiler Options
 target_compile_options(SimpleREST PRIVATE -fexceptions -std=c++14 -O3 -Wall -pedantic-errors -pedantic)
